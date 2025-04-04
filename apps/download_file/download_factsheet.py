@@ -10,7 +10,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-def download_factsheet(url: str, output_dir: str = 'downloads') -> str:
+def download_factsheet(url: str, output_dir: str = 'output') -> str:
     """
     Download a factsheet PDF from the given URL.
     
