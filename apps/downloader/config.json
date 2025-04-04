@@ -1,7 +1,7 @@
 {
     "factsheet": {
         "url": "https://am.jpmorgan.com/content/dam/jpm-am-aem/asiapacific/hk/en/literature/fact-sheet/jpmf-america_e.pdf",
-        "output_dir": "downloads",
+        "output_dir": "output",
         "base_name": "jpmf_america_factsheet"
     },
     "logging": {
