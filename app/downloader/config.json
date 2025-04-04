@@ -1,9 +1,21 @@
 {
-    "factsheet": {
-        "url": "https://am.jpmorgan.com/content/dam/jpm-am-aem/asiapacific/hk/en/literature/fact-sheet/jpmf-america_e.pdf",
-        "output_dir": "output",
-        "base_name": "jpmf_america_factsheet"
-    },
+    "factsheets": [
+        {
+            "name": "america",
+            "url": "https://am.jpmorgan.com/content/dam/jpm-am-aem/asiapacific/hk/en/literature/fact-sheet/jpmf-america_e.pdf",
+            "output_dir": "outputs"
+        },
+        {
+            "name": "china",
+            "url": "https://am.jpmorgan.com/content/dam/jpm-am-aem/asiapacific/hk/en/literature/fact-sheet/jpmf-china_e.pdf",
+            "output_dir": "outputs"
+        },
+        {
+            "name": "asia",
+            "url": "https://am.jpmorgan.com/content/dam/jpm-am-aem/asiapacific/hk/en/literature/fact-sheet/jpmf-asia_pacific_income_e.pdf",
+            "output_dir": "outputs"
+        }
+    ],
     "logging": {
         "level": "INFO",
         "format": "%(asctime)s - %(levelname)s - %(message)s"

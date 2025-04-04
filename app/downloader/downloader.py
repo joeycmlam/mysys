@@ -1,75 +1,58 @@
 import logging
 import requests
-from datetime import datetime
 from pathlib import Path
-from typing import Optional
-from lib.config import Config
+from typing import Dict, Optional
+from config import Config, FactsheetConfig
 
 class FactsheetDownloader:
-    """Downloads factsheet PDFs from a configured URL."""
+    """Downloads factsheets from specified URLs."""
     
-    def __init__(self, config: Optional[Config] = None):
-        """
-        Initialize the downloader with configuration.
-        
-        Args:
-            config: Optional Config instance. If not provided, creates a new one.
-        """
-        self.config = config or Config()
+    def __init__(self, config: Config):
+        self.config = config
         self._setup_logging()
-        self.logger = logging.getLogger(__name__)
     
     def _setup_logging(self) -> None:
-        """Configure logging based on config settings."""
+        """Set up logging configuration."""
         logging.basicConfig(
             level=self.config.get_log_level(),
             format=self.config.get_log_format()
         )
+        self.logger = logging.getLogger(__name__)
     
-    def _generate_filename(self) -> str:
-        """Generate a unique filename with timestamp."""
-        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-        return f"{self.config.get_base_name()}_{timestamp}.pdf"
+    def _generate_filename(self, factsheet: FactsheetConfig) -> str:
+        """Generate a filename for the downloaded factsheet."""
+        output_dir = Path(factsheet.output_dir)
+        output_dir.mkdir(parents=True, exist_ok=True)
+        return str(output_dir / f"{factsheet.name}.pdf")
     
-    def download(self) -> Optional[Path]:
-        """
-        Download the factsheet from the configured URL.
-        
-        Returns:
-            Path to the downloaded file if successful, None otherwise
-        """
+    def download_factsheet(self, factsheet: FactsheetConfig) -> Optional[str]:
+        """Download a factsheet from the specified URL."""
         try:
-            # Get URL from config
-            url = self.config.get_factsheet_url()
-            if not url:
-                self.logger.error("No factsheet URL configured")
-                return None
-            
-            # Create output directory
-            output_dir = Path(self.config.get_output_dir())
-            output_dir.mkdir(parents=True, exist_ok=True)
-            
-            # Generate output path
-            filename = self._generate_filename()
-            output_path = output_dir / filename
+            filename = self._generate_filename(factsheet)
+            self.logger.info(f"Downloading factsheet '{factsheet.name}' from {factsheet.url}")
             
             # Download the file
-            self.logger.info(f"Downloading factsheet from {url}")
-            response = requests.get(url, stream=True)
+            response = requests.get(factsheet.url, stream=True)
             response.raise_for_status()
             
             # Save the file
-            with open(output_path, 'wb') as f:
+            with open(filename, 'wb') as f:
                 for chunk in response.iter_content(chunk_size=8192):
-                    if chunk:
-                        f.write(chunk)
+                    f.write(chunk)
             
-            self.logger.info(f"Factsheet downloaded successfully to {output_path}")
-            return output_path
+            self.logger.info(f"Successfully downloaded factsheet '{factsheet.name}' to {filename}")
+            return filename
             
-        except requests.exceptions.RequestException as e:
-            self.logger.error(f"Error downloading factsheet: {e}")
+        except requests.RequestException as e:
+            self.logger.error(f"Error downloading factsheet '{factsheet.name}': {str(e)}")
             return None
         except Exception as e:
-            self.logger.error(f"Unexpected error: {e}")
-            return None 
+            self.logger.error(f"Unexpected error downloading factsheet '{factsheet.name}': {str(e)}")
+            return None
+    
+    def download_all_factsheets(self) -> Dict[str, Optional[str]]:
+        """Download all configured factsheets."""
+        results = {}
+        for factsheet in self.config.get_factsheets():
+            results[factsheet.name] = self.download_factsheet(factsheet)
+        return results 
