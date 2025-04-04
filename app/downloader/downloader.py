@@ -2,6 +2,7 @@ import logging
 import requests
 from pathlib import Path
 from typing import Dict, Optional
+from urllib.parse import urlparse
 from config import Config, FactsheetConfig
 
 class FactsheetDownloader:
@@ -19,16 +20,17 @@ class FactsheetDownloader:
         )
         self.logger = logging.getLogger(__name__)
     
-    def _generate_filename(self, factsheet: FactsheetConfig) -> str:
-        """Generate a filename for the downloaded factsheet."""
-        output_dir = Path(factsheet.output_dir)
-        output_dir.mkdir(parents=True, exist_ok=True)
-        return str(output_dir / f"{factsheet.name}.pdf")
-    
     def download_factsheet(self, factsheet: FactsheetConfig) -> Optional[str]:
         """Download a factsheet from the specified URL."""
         try:
-            filename = self._generate_filename(factsheet)
+            # Create output directory
+            output_dir = Path(factsheet.output_dir)
+            output_dir.mkdir(parents=True, exist_ok=True)
+            
+            # Get original filename from URL
+            url_path = urlparse(factsheet.url).path
+            filename = str(output_dir / Path(url_path).name)
+            
             self.logger.info(f"Downloading factsheet '{factsheet.name}' from {factsheet.url}")
             
             # Download the file
