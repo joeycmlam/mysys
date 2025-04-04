@@ -3,7 +3,7 @@ import requests
 from datetime import datetime
 from pathlib import Path
 from typing import Optional
-from config import Config
+from lib.config import Config
 
 class FactsheetDownloader:
     """Downloads factsheet PDFs from a configured URL."""
