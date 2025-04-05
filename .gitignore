@@ -5,6 +5,7 @@ dist
 tmp
 out-tsc
 __pycache__
+*.pyc
 
 # dependencies
 node_modules
