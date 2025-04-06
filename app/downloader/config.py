@@ -41,13 +41,6 @@ class Config:
         """Get all factsheet configurations."""
         return self.files
 
-    def get_factsheet_by_name(self, name: str) -> DownloadConfig:
-        """Get a specific configuration by name."""
-        for factsheet in self.files:
-            if factsheet.name == name:
-                return factsheet
-        raise ValueError(f"Factsheet configuration not found: {name}")
-
     def get_log_level(self) -> str:
         """Get the log level from configuration."""
         return self.settings.get('logging', {}).get('level', 'INFO')
