@@ -44,4 +44,7 @@ class Config:
     
     def get_setting(self, key: str, default: Any = None) -> Any:
         return self.settings.get(key, default)
+    
+    def get(self, key, default=None):
+        return self.config_data.get(key, default)
 

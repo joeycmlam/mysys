@@ -54,4 +54,6 @@ class DownloaderConfig(Config):
     def get_files_list(self) -> List[DownloadConfig]:
         """Get all factsheet configurations."""
         return self.files
+    
+
 
