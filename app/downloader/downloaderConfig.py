@@ -4,6 +4,7 @@ from typing import Dict, Any, List
 from dataclasses import dataclass
 from urllib.parse import urlparse
 
+
 @dataclass
 class DownloadConfig:
     url: str
@@ -17,13 +18,13 @@ class DownloadConfig:
         missing_fields = required_fields - set(data.keys())
         if missing_fields:
             raise ValueError(f"Missing required fields: {', '.join(missing_fields)}")
-        
+
         # Generate name from URL if not provided
         name = data.get('name', '')
         if not name:
             url_path = urlparse(data['url']).path
             name = Path(url_path).stem  # Get filename without extension
-        
+
         return cls(
             url=data['url'],
             output_dir=data['output_dir'],
