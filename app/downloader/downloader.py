@@ -1,8 +1,6 @@
 import logging
 import requests
-from pathlib import Path
 from typing import Dict, Optional
-from urllib.parse import urlparse
 from config import Config, DownloadConfig
 from file_utils import FileUtils
 
@@ -26,7 +24,7 @@ class FileDownloader:
         """Download a file from the specified URL."""
         try:
             # Create output directory
-            output_dir = FileUtils.create_output_dir(dnfile.output_dir)
+            FileUtils.create_output_dir(dnfile.output_dir)
 
             # Get original filename from URL
             filename= FileUtils.get_filename_from_url(dnfile.url)
