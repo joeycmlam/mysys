@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import Dict, Optional
 from urllib.parse import urlparse
 from config import Config, DownloadConfig
+from file_utils import FileUtils
 
 
 class FileDownloader:
@@ -25,12 +26,10 @@ class FileDownloader:
         """Download a factsheet from the specified URL."""
         try:
             # Create output directory
-            output_dir = Path(dnfile.output_dir)
-            output_dir.mkdir(parents=True, exist_ok=True)
+            output_dir = FileUtils.create_output_dir(dnfile.output_dir)
 
             # Get original filename from URL
-            url_path = urlparse(dnfile.url).path
-            filename = str(output_dir / Path(url_path).name)
+            filename= FileUtils.get_filename_from_url(dnfile.url)
 
             self.logger.info(f"Downloading factsheet '{dnfile.name}' from {dnfile.url}")
 

@@ -6,7 +6,7 @@ from urllib.parse import urlparse
 from downloaderConfig import DownloadConfig
 
 class Config:
-    """Configuration manager for the factsheet downloader."""
+    """Configuration manager for the downloader."""
     
     def __init__(self, config_path: str = None):
         if config_path is None:
@@ -24,7 +24,7 @@ class Config:
             with open(self.config_path, 'r') as f:
                 self.settings = json.load(f)
             
-            # Load factsheet configurations
+            # Load configurations
             factsheet_configs = self.settings.get('factsheets', [])
             if not factsheet_configs:
                 raise ValueError("No configurations found in config file")
