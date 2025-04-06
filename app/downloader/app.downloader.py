@@ -26,7 +26,6 @@ class FactsheetDownloaderApp:
             format=self.config.get_log_format()
         )
 
-
     def _download_all(self) -> None:
         """Download all factsheets and return their paths.
 
@@ -37,8 +36,6 @@ class FactsheetDownloaderApp:
         downloader = FileDownloader(self.config)
         for factsheet in self.config.get_factsheets():
             results[factsheet.name] = downloader.download_file(factsheet)
-
-
 
     def run(self) -> None:
         """Run the factsheet downloader application."""
