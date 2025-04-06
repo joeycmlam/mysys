@@ -29,6 +29,7 @@ class FileDownloader:
             # Get original filename from URL
             filename= FileUtils.get_filename_from_url(dnfile.url)
 
+
             self.logger.info(f"Downloading file '{dnfile.name}' from {dnfile.url}")
 
             # Download the file
@@ -36,11 +37,12 @@ class FileDownloader:
             response.raise_for_status()
 
             # Save the file
-            with open(filename, 'wb') as f:
+            output_path = dnfile.output_dir + "/" + filename
+            with open(output_path, 'wb') as f:
                 for chunk in response.iter_content(chunk_size=8192):
                     f.write(chunk)
 
-            self.logger.info(f"Successfully downloaded file '{dnfile.name}' to {filename}")
+            self.logger.info(f"Successfully downloaded file '{dnfile.name}' to {output_path}")
             return filename
 
         except requests.RequestException as e:
