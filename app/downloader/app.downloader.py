@@ -29,7 +29,7 @@ class FactsheetDownloaderApp:
         """
         results = {}
         downloader = FileDownloader(self.config)
-        for factsheet in self.config.get_factsheets():
+        for factsheet in self.config.get_files_list():
             results[factsheet.name] = downloader.download_file(factsheet)
 
     def run(self) -> None:

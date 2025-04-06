@@ -37,7 +37,7 @@ class Config:
         except json.JSONDecodeError as e:
             raise ValueError(f"Invalid JSON configuration: {e}")
 
-    def get_factsheets(self) -> List[DownloadConfig]:
+    def get_files_list(self) -> List[DownloadConfig]:
         """Get all factsheet configurations."""
         return self.files
 
