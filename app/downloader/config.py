@@ -9,12 +9,12 @@ from downloaderConfig import DownloadConfig
 class Config:
     """Configuration manager for the downloader."""
 
-    def __init__(self, config_path: str = None):
-        if config_path is None:
-            current_file = Path(__file__).resolve()
-            config_path = current_file.parent / "config.json"
+    def __init__(self, config_file: str = None):
+        if config_file is None:
+            current_path = Path(__file__).resolve()
+            config_file = current_path / "config.json"
 
-        self.config_path = Path(config_path)
+        self.config_file = Path(config_file)
         self.settings: Dict[str, Any] = {}
         self.files: List[DownloadConfig] = []
         self.load()
@@ -22,7 +22,7 @@ class Config:
     def load(self) -> None:
         """Load configuration from JSON file."""
         try:
-            with open(self.config_path, 'r') as f:
+            with open(self.config_file, 'r') as f:
                 self.settings = json.load(f)
 
             # Load configurations
@@ -33,7 +33,7 @@ class Config:
             self.files = [DownloadConfig.from_dict(config) for config in factsheet_configs]
 
         except FileNotFoundError:
-            raise FileNotFoundError(f"Configuration file not found: {self.config_path}")
+            raise FileNotFoundError(f"Configuration file not found: {self.config_file}")
         except json.JSONDecodeError as e:
             raise ValueError(f"Invalid JSON configuration: {e}")
 

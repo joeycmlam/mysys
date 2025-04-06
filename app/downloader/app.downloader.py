@@ -1,4 +1,5 @@
 import logging
+import argparse
 from pathlib import Path
 from typing import Dict, List
 from config import Config, DownloadConfig
@@ -8,14 +9,8 @@ from downloader import FileDownloader
 class FactsheetDownloaderApp:
     """Main application class for downloading factsheets."""
 
-    def __init__(self, config_path: str = None):
-        """Initialize the factsheet downloader application.
-        
-        Args:
-            config_path: Optional path to config file. If not provided, looks for config.json
-                        in the same directory as the calling module.
-        """
-        self.config = Config(config_path)
+    def __init__(self, config_file: str = None):
+        self.config = Config(config_file)
         self._setup_logging()
         self.logger = logging.getLogger(__name__)
 
@@ -50,10 +45,18 @@ class FactsheetDownloaderApp:
             self.logger.error(f"Error in file downloader: {str(e)}")
             raise
 
+def parse_args():
+    """Parse command line arguments."""
+    parser = argparse.ArgumentParser(description='Download factsheets from URLs.')
+    parser.add_argument('--config', '-c', 
+                        help='Path to config.json file',
+                        required=True)
+    return parser.parse_args()
 
 def main() -> None:
-    """Main entry point for the file downloader."""
-    app = FactsheetDownloaderApp()
+    """Main entry point for the factsheet downloader."""
+    args = parse_args()
+    app = FactsheetDownloaderApp(config_file=args.config)
     app.run()
 
 
