@@ -1,8 +1,7 @@
 import logging
 from typing import Dict, Optional
-from .config import Config, FactsheetConfig
-from .interfaces import IFactsheetDownloader, IDownloader
-from .file_utils import FileUtils
+from config import Config, FactsheetConfig
+from file_utils import FileUtils
 
 class FactsheetDownloader(IFactsheetDownloader):
     """Downloads factsheets from specified URLs."""

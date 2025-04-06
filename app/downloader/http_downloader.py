@@ -2,9 +2,8 @@ import logging
 import requests
 from pathlib import Path
 from typing import Optional
-from .interfaces import IDownloader
 
-class HttpDownloader(IDownloader):
+class HttpDownloader():
     """HTTP implementation of the downloader interface."""
     
     def __init__(self, logger: Optional[logging.Logger] = None):
