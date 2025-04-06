@@ -2,7 +2,8 @@ import logging
 import argparse
 from pathlib import Path
 from typing import Dict, List
-from config import Config, DownloadConfig
+from config import Config
+from downloadConfig import DownloadConfig, DownloaderConfig
 from downloader import FileDownloader
 
 
@@ -10,7 +11,7 @@ class FactsheetDownloaderApp:
     """Main application class for downloading factsheets."""
 
     def __init__(self, config_file: str = None):
-        self.config = Config(config_file)
+        self.config = DownloaderConfig(config_file)
         self._setup_logging()
         self.logger = logging.getLogger(__name__)
 

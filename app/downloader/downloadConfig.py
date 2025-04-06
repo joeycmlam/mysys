@@ -3,10 +3,11 @@ from pathlib import Path
 from typing import Dict, Any, List
 from dataclasses import dataclass
 from urllib.parse import urlparse
-
+from config import Config
 
 @dataclass
 class DownloadConfig:
+    """Configuration for downloading a single file."""
     url: str
     output_dir: str
     name: str = ""
@@ -30,3 +31,31 @@ class DownloadConfig:
             output_dir=data['output_dir'],
             name=name
         )
+
+class DownloaderConfig(Config):
+    """Configuration manager for the downloader."""
+    
+    def __init__(self, config_path: str):
+        """Initialize the downloader configuration."""
+        super().__init__(config_path)
+        self.files: List[DownloadConfig] = []
+        self._load_files()
+    
+    def _load_files(self) -> None:
+        """Load file configurations."""
+        files_config = self.settings.get('files', [])
+        if not files_config:
+            raise ValueError("No file configurations found in config file")
+        
+        self.files = [DownloadConfig.from_dict(config) for config in files_config]
+    
+    def get_files_list(self) -> List[DownloadConfig]:
+        """Get all factsheet configurations."""
+        return self.files
+    
+    def get_factsheet_by_name(self, name: str) -> DownloadConfig:
+        """Get a specific configuration by name."""
+        for factsheet in self.files:
+            if factsheet.name == name:
+                return factsheet
+        raise ValueError(f"Factsheet configuration not found: {name}")

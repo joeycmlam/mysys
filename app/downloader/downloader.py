@@ -1,7 +1,8 @@
 import logging
 import requests
 from typing import Dict, Optional
-from config import Config, DownloadConfig
+from config import Config
+from downloadConfig import DownloadConfig, DownloaderConfig
 from file_utils import FileUtils
 
 
