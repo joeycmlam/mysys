@@ -3,7 +3,7 @@ from pathlib import Path
 from typing import Dict, Any, List
 from dataclasses import dataclass
 from urllib.parse import urlparse
-from downloaderConfig import DownloadConfig
+from downloadConfig import DownloadConfig
 
 
 class Config:
