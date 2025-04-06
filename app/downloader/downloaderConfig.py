@@ -5,15 +5,14 @@ from dataclasses import dataclass
 from urllib.parse import urlparse
 
 @dataclass
-class FactsheetConfig:
-    """Configuration for a single factsheet."""
+class DownloadConfig:
     url: str
     output_dir: str
     name: str = ""
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'FactsheetConfig':
-        """Create a FactsheetConfig instance from a dictionary."""
+    def from_dict(cls, data: Dict[str, Any]) -> 'DownloadConfig':
+        """Create a DownloadConfig instance from a dictionary."""
         required_fields = {'url', 'output_dir'}
         missing_fields = required_fields - set(data.keys())
         if missing_fields:

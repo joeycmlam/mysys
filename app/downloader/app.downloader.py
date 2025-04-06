@@ -1,8 +1,8 @@
 import logging
 from pathlib import Path
 from typing import Dict, List
-from config import Config, FactsheetConfig
-from downloader import FactsheetDownloader
+from config import Config, DownloadConfig
+from downloader import FileDownloader
 
 
 class FactsheetDownloaderApp:
@@ -34,9 +34,9 @@ class FactsheetDownloaderApp:
             A dictionary mapping factsheet names to their downloaded file paths.
         """
         results = {}
-        downloader = FactsheetDownloader(self.config)
+        downloader = FileDownloader(self.config)
         for factsheet in self.config.get_factsheets():
-            results[factsheet.name] = downloader.download_factsheet(factsheet)
+            results[factsheet.name] = downloader.download_file(factsheet)
 
 
 
