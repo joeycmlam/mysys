@@ -40,19 +40,19 @@ class FactsheetDownloaderApp:
     def run(self) -> None:
         """Run the factsheet downloader application."""
         try:
-            self.logger.info("Starting factsheet downloader")
+            self.logger.info("Starting file downloader")
             # Download all factsheets
             self._download_all()
 
-            self.logger.info("Factsheet downloader completed")
+            self.logger.info("file downloader completed")
 
         except Exception as e:
-            self.logger.error(f"Error in factsheet downloader: {str(e)}")
+            self.logger.error(f"Error in file downloader: {str(e)}")
             raise
 
 
 def main() -> None:
-    """Main entry point for the factsheet downloader."""
+    """Main entry point for the file downloader."""
     app = FactsheetDownloaderApp()
     app.run()
 

@@ -8,7 +8,7 @@ from file_utils import FileUtils
 
 
 class FileDownloader:
-    """Downloads factsheets from specified URLs."""
+    """Downloads files from specified URLs."""
 
     def __init__(self, config):
         self.config = config
@@ -23,7 +23,7 @@ class FileDownloader:
         self.logger = logging.getLogger(__name__)
 
     def download_file(self, dnfile: DownloadConfig) -> Optional[str]:
-        """Download a factsheet from the specified URL."""
+        """Download a file from the specified URL."""
         try:
             # Create output directory
             output_dir = FileUtils.create_output_dir(dnfile.output_dir)
@@ -31,7 +31,7 @@ class FileDownloader:
             # Get original filename from URL
             filename= FileUtils.get_filename_from_url(dnfile.url)
 
-            self.logger.info(f"Downloading factsheet '{dnfile.name}' from {dnfile.url}")
+            self.logger.info(f"Downloading file '{dnfile.name}' from {dnfile.url}")
 
             # Download the file
             response = requests.get(dnfile.url, stream=True)

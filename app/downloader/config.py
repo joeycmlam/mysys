@@ -16,7 +16,7 @@ class Config:
 
         self.config_path = Path(config_path)
         self.settings: Dict[str, Any] = {}
-        self.factsheets: List[DownloadConfig] = []
+        self.files: List[DownloadConfig] = []
         self.load()
 
     def load(self) -> None:
@@ -30,7 +30,7 @@ class Config:
             if not factsheet_configs:
                 raise ValueError("No configurations found in config file")
 
-            self.factsheets = [DownloadConfig.from_dict(config) for config in factsheet_configs]
+            self.files = [DownloadConfig.from_dict(config) for config in factsheet_configs]
 
         except FileNotFoundError:
             raise FileNotFoundError(f"Configuration file not found: {self.config_path}")
@@ -39,11 +39,11 @@ class Config:
 
     def get_factsheets(self) -> List[DownloadConfig]:
         """Get all factsheet configurations."""
-        return self.factsheets
+        return self.files
 
     def get_factsheet_by_name(self, name: str) -> DownloadConfig:
         """Get a specific configuration by name."""
-        for factsheet in self.factsheets:
+        for factsheet in self.files:
             if factsheet.name == name:
                 return factsheet
         raise ValueError(f"Factsheet configuration not found: {name}")
