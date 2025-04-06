@@ -53,9 +53,3 @@ class FactsheetDownloader:
             self.logger.error(f"Unexpected error downloading factsheet '{factsheet.name}': {str(e)}")
             return None
 
-    def download_all_factsheets(self) -> Dict[str, Optional[str]]:
-        """Download all configured factsheets."""
-        results = {}
-        for factsheet in self.config.get_factsheets():
-            results[factsheet.name] = self.download_factsheet(factsheet)
-        return results

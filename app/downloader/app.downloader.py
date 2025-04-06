@@ -26,40 +26,32 @@ class FactsheetDownloaderApp:
             format=self.config.get_log_format()
         )
 
+
+    def _download_all(self) -> None:
+        """Download all factsheets and return their paths.
+
+        Returns:
+            A dictionary mapping factsheet names to their downloaded file paths.
+        """
+        results = {}
+        downloader = FactsheetDownloader(self.config)
+        for factsheet in self.config.get_factsheets():
+            results[factsheet.name] = downloader.download_factsheet(factsheet)
+
+
+
     def run(self) -> None:
         """Run the factsheet downloader application."""
         try:
             self.logger.info("Starting factsheet downloader")
-
-            # Process each factsheet
-            for factsheet in self.config.get_factsheets():
-                try:
-                    self._process_factsheet(factsheet)
-                except Exception as e:
-                    self.logger.error(f"Error processing factsheet {factsheet.name}: {str(e)}")
-                    continue
+            # Download all factsheets
+            self._download_all()
 
             self.logger.info("Factsheet downloader completed")
 
         except Exception as e:
             self.logger.error(f"Error in factsheet downloader: {str(e)}")
             raise
-
-    def _process_factsheet(self, factsheet: FactsheetConfig) -> None:
-        """Process a single factsheet.
-        
-        Args:
-            factsheet: The factsheet configuration to process.
-        """
-        self.logger.info(f"Processing factsheet: {factsheet.url}")
-
-        # Create downloader instance
-        downloader = FactsheetDownloader(self.config)
-
-        # Download factsheet
-        downloader.download_factsheet(factsheet)
-
-        self.logger.info(f"Successfully processed factsheet: {factsheet.name}")
 
 
 def main() -> None:
