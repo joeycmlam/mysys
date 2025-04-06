@@ -27,8 +27,7 @@ class FileDownloader:
             FileUtils.create_output_dir(dnfile.output_dir)
 
             # Get original filename from URL
-            filename= FileUtils.get_filename_from_url(dnfile.url)
-
+            filename = FileUtils.get_filename_from_url(dnfile.url)
 
             self.logger.info(f"Downloading file '{dnfile.name}' from {dnfile.url}")
 
@@ -51,4 +50,3 @@ class FileDownloader:
         except Exception as e:
             self.logger.error(f"Unexpected error downloading file '{dnfile.name}': {str(e)}")
             return None
-
