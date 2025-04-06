@@ -51,17 +51,13 @@ class FactsheetDownloaderApp:
         Args:
             factsheet: The factsheet configuration to process.
         """
-        self.logger.info(f"Processing factsheet: {factsheet.name}")
+        self.logger.info(f"Processing factsheet: {factsheet.url}")
 
         # Create downloader instance
-        downloader = FactsheetDownloader(
-            url=factsheet.url,
-            output_dir=factsheet.output_dir,
-            base_name=factsheet.base_name
-        )
+        downloader = FactsheetDownloader(self.config)
 
         # Download factsheet
-        downloader.download_factsheet()
+        downloader.download_factsheet(factsheet)
 
         self.logger.info(f"Successfully processed factsheet: {factsheet.name}")
 
