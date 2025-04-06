@@ -2,8 +2,7 @@ import logging
 import argparse
 from pathlib import Path
 from typing import Dict, List
-from config import Config
-from downloadConfig import DownloadConfig, DownloaderConfig
+from downloadConfig import DownloaderConfig
 from downloader import FileDownloader
 
 

@@ -3,22 +3,12 @@ from pathlib import Path
 from typing import Dict, Any, List
 from dataclasses import dataclass
 from urllib.parse import urlparse
-# from downloadConfig import DownloadConfig
 
 
 class Config:
     """Base configuration manager."""
     
     def __init__(self, config_path: str):
-        """Initialize the configuration.
-        
-        Args:
-            config_path: Path to config file.
-        
-        Raises:
-            FileNotFoundError: If config file does not exist.
-            ValueError: If config file is invalid.
-        """
         self.config_path = Path(config_path)
         self._validate_config_path()
         self.settings = self._load_config()
@@ -53,17 +43,5 @@ class Config:
         return self.settings.get('logging', {}).get('format', '%(asctime)s - %(levelname)s - %(message)s')
     
     def get_setting(self, key: str, default: Any = None) -> Any:
-        """Get a setting value by key.
-        
-        Args:
-            key: The setting key to retrieve.
-            default: Default value if key not found.
-        
-        Returns:
-            The setting value or default if not found.
-        """
         return self.settings.get(key, default)
 
-    # def get_files_list(self) -> List[DownloadConfig]:
-    #     """Get all factsheet configurations."""
-    #     return self.files
