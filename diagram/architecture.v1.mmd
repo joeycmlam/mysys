@@ -1,11 +1,11 @@
 architecture-beta
     group sys(cloud)[API]
 
-    service db(database)[SQLMI] in sys
-    service db(database)[MongoDB] in sys
+    service dbSQL(database)[SQLMI] in sys
+    service dbNoSQL(database)[MongoDB] in sys
     service disk1(disk)[Bob] in sys
-    service server(server)[V1] in sys
-    service server(server)[V3] in sys
-    service server(server)[RSP] in sys
-    service server(server)[RuleEngine] in sys
+    service serverv1(server)[V1] in sys
+    service serverv3(server)[V3] in sys
+    service serverrsp(server)[RSP] in sys
+    service serverruleengine(server)[RuleEngine] in sys
 
