@@ -5,7 +5,9 @@ architecture-beta
     service dbNoSQL(database)[MongoDB] in sys
     service disk1(disk)[Bob] in sys
     service serverv1(server)[V1] in sys
-    service serverv3(server)[V3] in sys
+    service apiv3(server)[V3] in sys
     service serverrsp(server)[RSP] in sys
+    service ui(server)[FrontEnd] in sys
     service serverruleengine(server)[RuleEngine] in sys
 
+    ui:L -- R:apiv3
