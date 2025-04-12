@@ -10,4 +10,4 @@ architecture-beta
     service ui(server)[FrontEnd] in sys
     service serverruleengine(server)[RuleEngine] in sys
 
-    ui:L -- R:apiv3
+    ui:R -- L:apiv3
