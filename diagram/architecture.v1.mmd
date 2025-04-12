@@ -1,10 +1,13 @@
 architecture-beta
-    group api(cloud)[API]
+    group sys(cloud)[API]
 
-    service db(database)[Database] in api
-    service disk1(disk)[Storage] in api
-    service disk2(disk)[Storage] in api
-    service server(server)[Server] in api
+    service db(database)[SQLMI] in sys
+    service db(database)[MongoDB] in sys
+    service disk1(disk)[Bob] in sys
+    service server(server)[V1] in sys
+    service server(server)[V3] in sys
+    service server(server)[RSP] in sys
+    service server(server)[RuleEngine] in sys
 
     db:L -- R:server
     disk1:T -- B:server
