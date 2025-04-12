@@ -4,10 +4,11 @@ architecture-beta
     service dbSQL(database)[SQLMI] in sys
     service dbNoSQL(database)[MongoDB] in sys
     service disk1(disk)[Bob] in sys
-    service serverv1(server)[V1] in sys
+    service apiv1(server)[V1] in sys
     service apiv3(server)[V3] in sys
     service serverrsp(server)[RSP] in sys
     service ui(server)[FrontEnd] in sys
     service serverruleengine(server)[RuleEngine] in sys
 
     ui:R -- L:apiv3
+    L:apiv1
