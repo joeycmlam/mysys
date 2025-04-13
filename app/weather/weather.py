@@ -1,5 +1,6 @@
-from typing import Any
+from typing import Any, Tuple
 import httpx
+import geocoder
 from mcp.server.fastmcp import FastMCP
 
 # Initialize FastMCP server
@@ -8,6 +9,13 @@ mcp = FastMCP("weather")
 # Constants
 NWS_API_BASE = "https://api.weather.gov"
 USER_AGENT = "weather-app/1.0"
+
+def get_coordinates(city: str) -> Tuple[float, float] | None:
+    """Convert a city name to latitude and longitude coordinates."""
+    location = geocoder.osm(city)
+    if location.ok:
+        return location.lat, location.lng
+    return None
 
 async def make_nws_request(url: str) -> dict[str, Any] | None:
     """Make a request to the NWS API with proper error handling."""
@@ -90,6 +98,19 @@ Forecast: {period['detailedForecast']}
 
     return "\n---\n".join(forecasts)
 
+@mcp.tool()
+async def get_weather_by_city(city: str) -> str:
+    """Get weather forecast for a city.
+    
+    Args:
+        city: Name of the city (e.g. 'Sacramento, CA')
+    """
+    coords = get_coordinates(city)
+    if not coords:
+        return f"Unable to find coordinates for {city}"
+    
+    latitude, longitude = coords
+    return await get_forecast(latitude, longitude)
 
 if __name__ == "__main__":
     # Initialize and run the server
