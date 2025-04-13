@@ -1,0 +1,145 @@
+{
+  "type": "excalidraw",
+  "elements": [
+    {
+      "type": "rectangle",
+      "id": "group-sys",
+      "x": 100,
+      "y": 50,
+      "width": 300,
+      "height": 400,
+      "angle": 0,
+      "strokeColor": "#000000",
+      "backgroundColor": "#ffffff",
+      "text": "API",
+      "groupIds": []
+    },
+    {
+      "type": "rectangle",
+      "id": "dbSQL",
+      "x": 150,
+      "y": 100,
+      "width": 100,
+      "height": 50,
+      "angle": 0,
+      "strokeColor": "#000000",
+      "backgroundColor": "#ffffff",
+      "text": "SQLMI",
+      "groupIds": ["group-sys"]
+    },
+    {
+      "type": "rectangle",
+      "id": "dbNoSQL",
+      "x": 150,
+      "y": 160,
+      "width": 100,
+      "height": 50,
+      "angle": 0,
+      "strokeColor": "#000000",
+      "backgroundColor": "#ffffff",
+      "text": "MongoDB",
+      "groupIds": ["group-sys"]
+    },
+    {
+      "type": "rectangle",
+      "id": "disk1",
+      "x": 150,
+      "y": 220,
+      "width": 100,
+      "height": 50,
+      "angle": 0,
+      "strokeColor": "#000000",
+      "backgroundColor": "#ffffff",
+      "text": "Bob",
+      "groupIds": ["group-sys"]
+    },
+    {
+      "type": "rectangle",
+      "id": "apiv1",
+      "x": 150,
+      "y": 280,
+      "width": 100,
+      "height": 50,
+      "angle": 0,
+      "strokeColor": "#000000",
+      "backgroundColor": "#ffffff",
+      "text": "V1",
+      "groupIds": ["group-sys"]
+    },
+    {
+      "type": "rectangle",
+      "id": "apiv3",
+      "x": 150,
+      "y": 340,
+      "width": 100,
+      "height": 50,
+      "angle": 0,
+      "strokeColor": "#000000",
+      "backgroundColor": "#ffffff",
+      "text": "V3",
+      "groupIds": ["group-sys"]
+    },
+    {
+      "type": "rectangle",
+      "id": "serverrsp",
+      "x": 150,
+      "y": 400,
+      "width": 100,
+      "height": 50,
+      "angle": 0,
+      "strokeColor": "#000000",
+      "backgroundColor": "#ffffff",
+      "text": "RSP",
+      "groupIds": ["group-sys"]
+    },
+    {
+      "type": "rectangle",
+      "id": "ui",
+      "x": 400,
+      "y": 200,
+      "width": 100,
+      "height": 50,
+      "angle": 0,
+      "strokeColor": "#000000",
+      "backgroundColor": "#ffffff",
+      "text": "FrontEnd",
+      "groupIds": []
+    },
+    {
+      "type": "rectangle",
+      "id": "serverruleengine",
+      "x": 150,
+      "y": 460,
+      "width": 100,
+      "height": 50,
+      "angle": 0,
+      "strokeColor": "#000000",
+      "backgroundColor": "#ffffff",
+      "text": "RuleEngine",
+      "groupIds": ["group-sys"]
+    },
+    {
+      "type": "arrow",
+      "id": "ui-to-apiv3",
+      "x": 400,
+      "y": 200,
+      "width": 0,
+      "height": 0,
+      "angle": 0,
+      "strokeColor": "#000000",
+      "backgroundColor": "transparent",
+      "points": [
+        [0, 0],
+        [-150, 140]
+      ],
+      "startBinding": null,
+      "endBinding": null,
+      "text": "",
+      "groupIds": []
+    }
+  ],
+  "appState": {
+    "viewBackgroundColor": "#ffffff",
+    "gridSize": null
+  }
+}
