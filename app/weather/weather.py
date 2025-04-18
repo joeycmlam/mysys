@@ -1,117 +1,77 @@
-from typing import Any, Tuple
+from typing import Any
 import httpx
-import geocoder
 from mcp.server.fastmcp import FastMCP
 
-# Initialize FastMCP server
+# Initialize MCP server
 mcp = FastMCP("weather")
 
-# Constants
-NWS_API_BASE = "https://api.weather.gov"
-USER_AGENT = "weather-app/1.0"
+# API Configuration
+NWS_API = "https://api.weather.gov"
+USER_AGENT = "MyWeatherMCP/1.0 (your@email.com)"
 
-def get_coordinates(city: str) -> Tuple[float, float] | None:
-    """Convert a city name to latitude and longitude coordinates."""
-    location = geocoder.osm(city)
-    if location.ok:
-        return location.lat, location.lng
-    return None
-
-async def make_nws_request(url: str) -> dict[str, Any] | None:
-    """Make a request to the NWS API with proper error handling."""
-    headers = {
-        "User-Agent": USER_AGENT,
-        "Accept": "application/geo+json"
-    }
+async def fetch_weather_data(url: str) -> dict | None:
+    """Fetch data from NWS API with error handling"""
+    headers = {"User-Agent": USER_AGENT, "Accept": "application/geo+json"}
     async with httpx.AsyncClient() as client:
         try:
-            response = await client.get(url, headers=headers, timeout=30.0)
+            response = await client.get(url, headers=headers, timeout=10)
             response.raise_for_status()
             return response.json()
-        except Exception:
+        except Exception as e:
+            print(f"API Error: {str(e)}")
             return None
 
-def format_alert(feature: dict) -> str:
-    """Format an alert feature into a readable string."""
-    props = feature["properties"]
-    return f"""
-Event: {props.get('event', 'Unknown')}
-Area: {props.get('areaDesc', 'Unknown')}
-Severity: {props.get('severity', 'Unknown')}
-Description: {props.get('description', 'No description available')}
-Instructions: {props.get('instruction', 'No specific instructions provided')}
-"""
-
-
 @mcp.tool()
-async def get_alerts(state: str) -> str:
-    """Get weather alerts for a US state.
-
+async def get_weather_alerts(state: str) -> str:
+    """Get active weather alerts for a US state
     Args:
-        state: Two-letter US state code (e.g. CA, NY)
+        state: 2-letter state code (e.g. CA, NY)
     """
-    url = f"{NWS_API_BASE}/alerts/active/area/{state}"
-    data = await make_nws_request(url)
-
+    url = f"{NWS_API}/alerts/active/area/{state}"
+    data = await fetch_weather_data(url)
+    
     if not data or "features" not in data:
-        return "Unable to fetch alerts or no alerts found."
+        return "No active alerts found"
+    
+    alerts = []
+    for alert in data["features"]:
+        props = alert["properties"]
+        alerts.append(
+            f"{props['event']} - {props['areaDesc']}\n"
+            f"Severity: {props['severity']}\n"
+            f"{props['description']}"
+        )
+    return "\n\n".join(alerts[:5])  # Return top 5 alerts
 
-    if not data["features"]:
-        return "No active alerts for this state."
-
-    alerts = [format_alert(feature) for feature in data["features"]]
-    return "\n---\n".join(alerts)
-
-@mcp.tool()
-async def get_forecast(latitude: float, longitude: float) -> str:
-    """Get weather forecast for a location.
-
+@mcp.tool() 
+async def get_weather_forecast(lat: float, lon: float) -> str:
+    """Get detailed weather forecast for coordinates
     Args:
-        latitude: Latitude of the location
-        longitude: Longitude of the location
+        lat: Latitude (-90 to 90)
+        lon: Longitude (-180 to 180)
     """
-    # First get the forecast grid endpoint
-    points_url = f"{NWS_API_BASE}/points/{latitude},{longitude}"
-    points_data = await make_nws_request(points_url)
-
+    points_url = f"{NWS_API}/points/{lat},{lon}"
+    points_data = await fetch_weather_data(points_url)
+    
     if not points_data:
-        return "Unable to fetch forecast data for this location."
-
-    # Get the forecast URL from the points response
+        return "Location not found"
+    
     forecast_url = points_data["properties"]["forecast"]
-    forecast_data = await make_nws_request(forecast_url)
-
+    forecast_data = await fetch_weather_data(forecast_url)
+    
     if not forecast_data:
-        return "Unable to fetch detailed forecast."
-
-    # Format the periods into a readable forecast
-    periods = forecast_data["properties"]["periods"]
-    forecasts = []
-    for period in periods[:5]:  # Only show next 5 periods
-        forecast = f"""
-{period['name']}:
-Temperature: {period['temperature']}°{period['temperatureUnit']}
-Wind: {period['windSpeed']} {period['windDirection']}
-Forecast: {period['detailedForecast']}
-"""
-        forecasts.append(forecast)
-
-    return "\n---\n".join(forecasts)
-
-@mcp.tool()
-async def get_weather_by_city(city: str) -> str:
-    """Get weather forecast for a city.
+        return "Forecast unavailable"
     
-    Args:
-        city: Name of the city (e.g. 'Sacramento, CA')
-    """
-    coords = get_coordinates(city)
-    if not coords:
-        return f"Unable to find coordinates for {city}"
-    
-    latitude, longitude = coords
-    return await get_forecast(latitude, longitude)
+    periods = forecast_data["properties"]["periods"][:3]  # Next 3 periods
+    forecast = []
+    for period in periods:
+        forecast.append(
+            f"{period['name']}:\n"
+            f"Temp: {period['temperature']}°{period['temperatureUnit']}\n"
+            f"Wind: {period['windSpeed']} {period['windDirection']}\n"
+            f"{period['detailedForecast']}"
+        )
+    return "\n\n".join(forecast)
 
 if __name__ == "__main__":
-    # Initialize and run the server
-    mcp.run(transport='stdio')
+    mcp.run()
