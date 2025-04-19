@@ -2,8 +2,9 @@
   "servers": {
     "weather": {
       "type": "stdio",
-      "command": "python3",
+      "command": "uv",
       "args": [
+        "run",
         "/Users/joeylam/repo/mysys/app/mcp_weather/weather.py"
       ]
     },
