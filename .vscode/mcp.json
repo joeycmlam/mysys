@@ -1,0 +1,15 @@
+{
+  "servers": {
+    "weather": {
+      "type": "stdio",
+      "command": "python3",
+      "args": [
+        "/Users/joeylam/repo/mysys/app/weather/weather.py"
+      ]
+    },
+    "nx-mcp": {
+      "type": "sse",
+      "url": "http://localhost:9645/sse"
+    }
+  }
+}
